@@ -1,12 +1,17 @@
 import Logo from '../../components/logo/logo';
-import PlaceCard from './place-card';
 import { Helmet } from 'react-helmet-async';
+import { Offers } from '../../types/offers';
+import PlaceCardList from '../../components/place-card-list/place-card-list';
+import {useState} from 'react';
 
-type MainPageProps ={
-    placesCount : number;
+type MainPageProps = {
+  placesCount: number;
+  offers: Offers;
 }
 
-function MainPage({placesCount}: MainPageProps): JSX.Element {
+function MainPage({ placesCount, offers }: MainPageProps): JSX.Element {
+  const [cardHoverId, setCardHoverId] = useState<string | null>(null);
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -27,7 +32,7 @@ function MainPage({placesCount}: MainPageProps): JSX.Element {
                   >
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     <span className="header__user-name user__name">
-                                            Oliver.conner@gmail.com
+                      Oliver.conner@gmail.com
                     </span>
                     <span className="header__favorite-count">3</span>
                   </a>
@@ -88,7 +93,7 @@ function MainPage({placesCount}: MainPageProps): JSX.Element {
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
-                                    Popular
+                  Popular
                   <svg className="places__sorting-arrow" width={7} height={4}>
                     <use xlinkHref="#icon-arrow-select" />
                   </svg>
@@ -98,31 +103,27 @@ function MainPage({placesCount}: MainPageProps): JSX.Element {
                     className="places__option places__option--active"
                     tabIndex={0}
                   >
-                                        Popular
+                    Popular
                   </li>
                   <li className="places__option" tabIndex={0}>
-                                        Price: low to high
+                    Price: low to high
                   </li>
                   <li className="places__option" tabIndex={0}>
-                                        Price: high to low
+                    Price: high to low
                   </li>
                   <li className="places__option" tabIndex={0}>
-                                        Top rated first
+                    Top rated first
                   </li>
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
+                <PlaceCardList offerList = {offers} setCardHoverId = {setCardHoverId}/>
 
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
 
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <section className="cities__map map">{cardHoverId}</section>
             </div>
           </div>
         </div>
