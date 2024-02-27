@@ -99,7 +99,7 @@ function FavotitesPage({ offers }: FavoritesPageProps): JSX.Element {
                       </article>
                     </div>
                   </li>
-                  
+
                 )
                 )
               }

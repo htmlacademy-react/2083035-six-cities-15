@@ -4,6 +4,7 @@ import { Offers } from '../../types/offers';
 import { useParams } from 'react-router-dom';
 import { Reviews } from '../../types/reviews';
 import ReviewCardList from '../../components/review-card-list/review-card-list';
+import ReviewForm from '../../components/review-form/review-form';
 
 type OfferPageProps = {
   offers: Offers;
@@ -135,6 +136,7 @@ function OfferPage({ offers, reviews }: OfferPageProps): JSX.Element {
                 </div>
               </div>
               <ReviewCardList reviewList={reviews} />
+              <ReviewForm />
             </div>
           </div>
           <section className="offer__map map" />
