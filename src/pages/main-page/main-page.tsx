@@ -1,8 +1,10 @@
 import Logo from '../../components/logo/logo';
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
+import Map from '../../components/map/map.tsx';
 import { Offers } from '../../types/offers';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
-import {useState} from 'react';
+import { city } from '../../mocks/city';
 
 type MainPageProps = {
   placesCount: number;
@@ -117,13 +119,11 @@ function MainPage({ placesCount, offers }: MainPageProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <PlaceCardList offerList = {offers} setCardHoverId = {setCardHoverId}/>
-
-
+                <PlaceCardList offerList={offers} setCardHoverId={setCardHoverId} />
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map">{cardHoverId}</section>
+              <Map offers={offers} cardHoverId={cardHoverId} city={city} />
             </div>
           </div>
         </div>
