@@ -10,6 +10,7 @@ import ReviewForm from '../../components/review-form/review-form';
 import Map from '../../components/map/map';
 import { gerNearOffers } from './utils';
 import NearPlaceCardList from '../../components/near-place-card-list/near-place-card-list';
+import NotFoundPage from '../not-found-page/not-found-page';
 
 type OfferPageProps = {
   offers: Offers;
@@ -17,6 +18,8 @@ type OfferPageProps = {
 };
 
 function OfferPage({ offers, reviews }: OfferPageProps): JSX.Element {
+  // если убрать cardHoverId, то пишет, что setCardHoverId не является функцией
+  // не знаю как исправить
   const [cardHoverId, setCardHoverId] = useState<string | null>(null);
   const params = useParams();
   const cardId = params.id;
@@ -25,8 +28,14 @@ function OfferPage({ offers, reviews }: OfferPageProps): JSX.Element {
   const { hostName, isPro, avatarUrl } = host;
 
   const foundOffer = offers.find((offer): boolean => offer.id.toString() === cardId);
+
+  if (!foundOffer) {
+    return (<NotFoundPage />);
+  }
+
   const offerPage = { ...selectedCard, ...foundOffer };
   const nearOffers = gerNearOffers(offerPage);
+  const nearOfferPlusSelectedCard = [offerPage, ...nearOffers];
 
   return (
     <div className="page">
@@ -149,7 +158,7 @@ function OfferPage({ offers, reviews }: OfferPageProps): JSX.Element {
               <ReviewForm />
             </div>
           </div>
-          <Map mapType={'offer'} offers={nearOffers} cardHoverId={cardHoverId} city={city} />
+          <Map mapType={'offer'} offers={nearOfferPlusSelectedCard} cardHoverId={offerPage.id} city={city} />
         </section>
         <div className="container">
           <section className="near-places places">
