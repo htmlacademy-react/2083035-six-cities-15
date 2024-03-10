@@ -1,18 +1,19 @@
 import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import useMap from '../hooks/useMap';
+import useMap from '../../hooks/useMap';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import { Offer, Offers } from '../../types/offers';
 import { CityMap } from '../../types/city-map';
 
 type MapProps = {
-    city: CityMap;
-    offers: Offers;
-    cardHoverId: Offer['id'] | null;
+  mapType: 'cities' | 'offer';
+  city: CityMap;
+  offers: Offers;
+  cardHoverId: Offer['id'] | null;
 }
 
-function Map({ city, offers, cardHoverId }: MapProps) {
+function Map({ mapType, city, offers, cardHoverId }: MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -47,7 +48,19 @@ function Map({ city, offers, cardHoverId }: MapProps) {
 
   return (
     <section
-      className="cities__map map"
+      style={mapType === 'offer' ?
+        {
+          height: '100%',
+          minHeight: '500px',
+          width: '100%',
+          minWidth: '1144px',
+          margin: '0, auto'
+        }
+        : {
+          height: '100%'
+        }
+      }
+      className={`${mapType}__map map`}
       ref={mapRef}
     >
     </section>

@@ -1,10 +1,18 @@
 import { Helmet } from 'react-helmet-async';
-import Logo from '../../components/logo/logo';
-import { Offers } from '../../types/offers';
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+
+import { Offers } from '../../types/offers';
+import { city } from '../../mocks/city';
+import { nearOffers } from '../../mocks/near-offers';
+
 import { Reviews } from '../../types/reviews';
+
+import Logo from '../../components/logo/logo';
 import ReviewCardList from '../../components/review-card-list/review-card-list';
 import ReviewForm from '../../components/review-form/review-form';
+import Map from '../../components/map/map';
+
 
 type OfferPageProps = {
   offers: Offers;
@@ -12,7 +20,7 @@ type OfferPageProps = {
 };
 
 function OfferPage({ offers, reviews }: OfferPageProps): JSX.Element {
-
+  const [cardHoverId] = useState<string | null>(null);
   const params = useParams();
   const cardId = params.id;
   const selectedCard = offers.filter((offer) => offer.id === cardId)[0];
@@ -139,7 +147,7 @@ function OfferPage({ offers, reviews }: OfferPageProps): JSX.Element {
               <ReviewForm />
             </div>
           </div>
-          <section className="offer__map map" />
+          <Map mapType={'offer'} offers={nearOffers} cardHoverId={cardHoverId} city={city} />
         </section>
         <div className="container">
           <section className="near-places places">
