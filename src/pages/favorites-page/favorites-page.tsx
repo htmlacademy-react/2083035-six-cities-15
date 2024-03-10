@@ -64,13 +64,17 @@ function FavotitesPage({ offers }: FavoritesPageProps): JSX.Element {
                     </div>
                     <div className="favorites__places">
                       <article className="favorites__card place-card">
-
                         {card.isPremium === true && <div className="place-card__mark"><span>Premium</span></div>}
-
                         <div className="favorites__image-wrapper place-card__image-wrapper">
-                          <a href="#">
-                            <img className="place-card__image" src={card.previewImage} width="150" height="110" alt="Place image" />
-                          </a>
+                          <Link to={`/offer/${card.id}`}>
+                            <img
+                              className="place-card__image"
+                              src={card.previewImage}
+                              width="150"
+                              height="110"
+                              alt="Place image"
+                            />
+                          </Link>
                         </div>
                         <div className="favorites__card-info place-card__info">
                           <div className="place-card__price-wrapper">
@@ -92,7 +96,7 @@ function FavotitesPage({ offers }: FavoritesPageProps): JSX.Element {
                             </div>
                           </div>
                           <h2 className="place-card__name">
-                            <a href="#">{card.name}</a>
+                            <Link to={`/offer/${card.id}`}>{card.name}</Link>
                           </h2>
                           <p className="place-card__type">{card.type}</p>
                         </div>
