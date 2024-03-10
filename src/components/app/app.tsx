@@ -9,6 +9,7 @@ import PrivateRoute from '../private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import { Offers } from '../../types/offers';
 import { Reviews } from '../../types/reviews';
+import ScrollToTop from '../scroll-to-top/ScrollToTop';
 
 type AppProps = {
   placesCount: number;
@@ -20,6 +21,7 @@ function App({ placesCount, offers, reviews }: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
+      <ScrollToTop />
         <Routes>
           <Route
             path={AppRoute.Main}
