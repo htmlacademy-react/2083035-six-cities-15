@@ -21,7 +21,7 @@ function App({ placesCount, offers, reviews }: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
-      <ScrollToTop />
+        <ScrollToTop />
         <Routes>
           <Route
             path={AppRoute.Main}
