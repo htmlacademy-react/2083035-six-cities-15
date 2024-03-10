@@ -58,8 +58,7 @@ function Map({ mapType, city, offers, cardHoverId }: MapProps) {
         }
         : {
           height: '100%'
-        }
-      }
+        }}
       className={`${mapType}__map map`}
       ref={mapRef}
     >

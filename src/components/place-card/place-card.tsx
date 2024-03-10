@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom';
 import { handleStars } from '../../const';
 
 type PlaceCardProps = {
+  placeType: 'cities' | 'near-places';
   offerCard: Offer;
   setCardHoverId(id: string | null): void;
 }
 
-function PlaceCard({ offerCard, setCardHoverId }: PlaceCardProps): JSX.Element {
+function PlaceCard({ placeType, offerCard, setCardHoverId }: PlaceCardProps): JSX.Element {
   const { name, price, type, isFavorite, id, isPremium, previewImage, rating } = offerCard;
   const [isFavoriteCard, setIsFavoriteCard] = useState(isFavorite);
 
@@ -21,10 +22,14 @@ function PlaceCard({ offerCard, setCardHoverId }: PlaceCardProps): JSX.Element {
   };
 
   return (
-    <article className="cities__card place-card" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+    <article
+      className={`${placeType}__card place-card`}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
+    >
       {isPremium && <div className="place-card__mark"><span>Premium</span></div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`offer/${id}`}>
+      <div className={`${placeType}__image-wrapper place-card__image-wrapper`}>
+        <Link to={`/offer/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
