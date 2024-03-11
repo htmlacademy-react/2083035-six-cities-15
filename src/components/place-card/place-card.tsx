@@ -6,7 +6,7 @@ import { handleStars } from '../../const';
 type PlaceCardProps = {
   placeType: 'cities' | 'near-places';
   offerCard: Offer;
-  setCardHoverId(id: string | null): void;
+  setCardHoverId?(id: string | null): void;
 }
 
 function PlaceCard({ placeType, offerCard, setCardHoverId }: PlaceCardProps): JSX.Element {
@@ -14,11 +14,11 @@ function PlaceCard({ placeType, offerCard, setCardHoverId }: PlaceCardProps): JS
   const [isFavoriteCard, setIsFavoriteCard] = useState(isFavorite);
 
   const handleMouseOver = () => {
-    setCardHoverId(id);
+    setCardHoverId?.(id);
   };
 
   const handleMouseOut = () => {
-    setCardHoverId(null);
+    setCardHoverId?.(null);
   };
 
   return (

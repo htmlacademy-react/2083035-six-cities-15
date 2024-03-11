@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
 import { Offers } from '../../types/offers';
 import { city } from '../../mocks/city';
 import { Reviews } from '../../types/reviews';
@@ -18,9 +17,6 @@ type OfferPageProps = {
 };
 
 function OfferPage({ offers, reviews }: OfferPageProps): JSX.Element {
-  // если убрать cardHoverId, то пишет, что setCardHoverId не является функцией
-  // не знаю как исправить
-  const [cardHoverId, setCardHoverId] = useState<string | null>(null);
   const params = useParams();
   const cardId = params.id;
   const selectedCard = offers.filter((offer) => offer.id === cardId)[0];
@@ -166,7 +162,7 @@ function OfferPage({ offers, reviews }: OfferPageProps): JSX.Element {
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              <NearPlaceCardList offerList={nearOffers} setCardHoverId={setCardHoverId} />
+              <NearPlaceCardList offerList={nearOffers} />
             </div>
           </section>
         </div>

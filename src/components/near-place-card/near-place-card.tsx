@@ -3,14 +3,12 @@ import PlaceCard from '../place-card/place-card';
 
 type NearPlaceCardProps = {
     offerCard: Offer;
-    setCardHoverId(id: string | null): void;
 }
 
-function NearPlaceCard({ offerCard, setCardHoverId }: NearPlaceCardProps): JSX.Element {
+function NearPlaceCard({ offerCard }: NearPlaceCardProps): JSX.Element {
   return (
-    <PlaceCard placeType={'near-places'} offerCard={offerCard} setCardHoverId={setCardHoverId} />
+    <PlaceCard placeType={'near-places'} offerCard={offerCard} />
   );
 }
-
 
 export default NearPlaceCard;
