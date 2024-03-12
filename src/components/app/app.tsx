@@ -25,7 +25,7 @@ function App({ offers, reviews, citiesList }: AppProps): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage  citiesList = {citiesList} />}
+            element={<MainPage citiesList = {citiesList} />}
           />
           <Route
             path={AppRoute.Favorites}
