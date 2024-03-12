@@ -15,9 +15,10 @@ type AppProps = {
   placesCount: number;
   offers: Offers;
   reviews: Reviews;
+  citiesList: string[];
 }
 
-function App({ placesCount, offers, reviews }: AppProps): JSX.Element {
+function App({ placesCount, offers, reviews, citiesList }: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -25,7 +26,7 @@ function App({ placesCount, offers, reviews }: AppProps): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage placesCount={placesCount} offers={offers} />}
+            element={<MainPage placesCount={placesCount} offers={offers} citiesList = {citiesList} />}
           />
           <Route
             path={AppRoute.Favorites}

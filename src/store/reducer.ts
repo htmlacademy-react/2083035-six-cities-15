@@ -5,7 +5,6 @@ import {getOffers} from './action';
 import {DEFAULT_CITY} from '../const';
 
 
-
 const initialState = {
   cityActive: DEFAULT_CITY,
   offers: offers.filter(

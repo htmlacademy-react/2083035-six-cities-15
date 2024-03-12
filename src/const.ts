@@ -1,4 +1,5 @@
-import { CityMap } from './types/city-map'
+import { CityMap } from './types/city-map';
+import { CityList } from './types/city';
 
 export const Setting = {
   placesCount: 312
@@ -23,7 +24,7 @@ export const URL_MARKER_DEFAULT = './public/img/pin.svg';
 
 export const URL_MARKER_CURRENT = './public/img/pin-active.svg';
 
-export const CITY_LIST = {
+export const CITY_LIST: CityList = {
   Paris: 'Paris',
   Cologne: 'Cologne',
   Brussels: 'Brussels',
@@ -31,8 +32,6 @@ export const CITY_LIST = {
   Hamburg: 'Hamburg',
   Dusseldorf: 'Dusseldorf',
 } as const;
-
-export const DEFAULT_CITY = CITY_LIST.Paris;
 
 export const cityMap: CityMap[] = [
   {
@@ -71,4 +70,15 @@ export const cityMap: CityMap[] = [
     lng: 6.776314,
     zoom: 12
   },
+];
+
+export const DEFAULT_CITY = CITY_LIST.Paris;
+
+export const citiesList = [
+  CITY_LIST.Paris,
+  CITY_LIST.Cologne,
+  CITY_LIST.Brussels,
+  CITY_LIST.Amsterdam,
+  CITY_LIST.Hamburg,
+  CITY_LIST.Dusseldorf
 ];
