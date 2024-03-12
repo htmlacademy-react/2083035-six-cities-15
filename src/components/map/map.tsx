@@ -42,7 +42,7 @@ function Map({ mapType, city, offers, cardHoverId }: MapProps) {
           .addTo(map);
       });
     }
-  }, [map, offers, cardHoverId]);
+  }, [map, offers, cardHoverId, city]);
 
   return (
     <section

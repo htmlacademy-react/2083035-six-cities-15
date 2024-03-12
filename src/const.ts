@@ -1,10 +1,6 @@
 import { CityMap } from './types/city-map';
 import { CityList } from './types/city';
 
-export const Setting = {
-  placesCount: 312
-};
-
 export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
@@ -73,6 +69,8 @@ export const cityMap: CityMap[] = [
 ];
 
 export const DEFAULT_CITY = CITY_LIST.Paris;
+
+export const [defaultLocation] = cityMap.filter((item) => item.title === DEFAULT_CITY);
 
 export const citiesList = [
   CITY_LIST.Paris,
