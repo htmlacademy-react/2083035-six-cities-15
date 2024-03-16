@@ -12,12 +12,12 @@ import { Reviews } from '../../types/reviews';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
 type AppProps = {
-  placesCount: number;
   offers: Offers;
   reviews: Reviews;
+  citiesList: string[];
 }
 
-function App({ placesCount, offers, reviews }: AppProps): JSX.Element {
+function App({ offers, reviews, citiesList }: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -25,7 +25,7 @@ function App({ placesCount, offers, reviews }: AppProps): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage placesCount={placesCount} offers={offers} />}
+            element={<MainPage citiesList = {citiesList} />}
           />
           <Route
             path={AppRoute.Favorites}

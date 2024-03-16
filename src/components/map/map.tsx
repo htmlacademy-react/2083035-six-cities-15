@@ -44,6 +44,12 @@ function Map({ mapType, city, offers, cardHoverId }: MapProps) {
     }
   }, [map, offers, cardHoverId]);
 
+  useEffect(() => {
+    if (map) {
+      map.setView([city.lat, city.lng], city.zoom);
+    }
+  }, [map, city]);
+
   return (
     <section
       style={mapType === 'offer' ?
