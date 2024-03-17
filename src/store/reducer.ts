@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setCityActive, getOffers, setChangeMap } from './action';
+import { setCityActive, getOffers, setChangeMap, getSortType, setSortedOffers } from './action';
 import { offers } from '../mocks/offers';
-import { DEFAULT_CITY, defaultLocation } from '../const';
-import { SortType } from '../const';
+import { DEFAULT_CITY, defaultLocation, SortType } from '../const';
+import { getSortedOffers } from '../components/sort/utils';
 
 const initialState = {
   cityActive: DEFAULT_CITY,
@@ -10,7 +10,7 @@ const initialState = {
     (item) => item?.city?.name === DEFAULT_CITY
   ),
   city: defaultLocation,
-  sorting: SortType.Popular
+  sortType: SortType.Popular
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -27,6 +27,14 @@ const reducer = createReducer(initialState, (builder) => {
 
     .addCase(setChangeMap, (state, action) => {
       state.city = action.payload;
+    })
+
+    .addCase(getSortType, (state, action) => {
+      state.sortType = action.payload;
+    })
+
+    .addCase(setSortedOffers, (state) => {
+      state.offers = getSortedOffers(state.sortType, state.offers);
     });
 });
 
