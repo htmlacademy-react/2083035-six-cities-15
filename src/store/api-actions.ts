@@ -7,7 +7,7 @@ import { saveToken, dropToken } from '../services/token';
 import { ApiRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import {store} from './';
+import {store} from '.';
 
 export const clearErrorAction = createAsyncThunk(
     'game/clearError',
