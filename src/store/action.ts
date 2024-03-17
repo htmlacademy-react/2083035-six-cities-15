@@ -12,3 +12,4 @@ export const setSortedOffers = createAction('setSortedOffers');
 export const loadOffers = createAction<Offers>('data/loadOffers');
 export const setOffersIsLoading = createAction<boolean>('setOffersIsLoading');
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
+export const setError = createAction<string | null>('setError');
