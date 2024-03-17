@@ -10,14 +10,14 @@ import { UserData } from '../types/user-data';
 import {store} from '.';
 
 export const clearErrorAction = createAsyncThunk(
-    'game/clearError',
-    () => {
-      setTimeout(
-        () => store.dispatch(setError(null)),
-        TIMEOUT_SHOW_ERROR,
-      );
-    },
-  );
+  'game/clearError',
+  () => {
+    setTimeout(
+      () => store.dispatch(setError(null)),
+      TIMEOUT_SHOW_ERROR,
+    );
+  },
+);
 
 
 export const fetchQuestionAction = createAsyncThunk<void, undefined, {
@@ -25,15 +25,15 @@ export const fetchQuestionAction = createAsyncThunk<void, undefined, {
     state: State;
     extra: AxiosInstance;
 }>(
-    'data/fetchQuestions',
-    async (_arg, { dispatch, extra: api }) => {
-        dispatch(setOffersIsLoading(true));
+  'data/fetchQuestions',
+  async (_arg, { dispatch, extra: api }) => {
+    dispatch(setOffersIsLoading(true));
 
-        const { data } = await api.get<Offers>(ApiRoute.Offers);
-        dispatch(setOffersIsLoading(false));
-        dispatch(loadOffers(data));
-        dispatch(getOffers());
-    },
+    const { data } = await api.get<Offers>(ApiRoute.Offers);
+    dispatch(setOffersIsLoading(false));
+    dispatch(loadOffers(data));
+    dispatch(getOffers());
+  },
 );
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
@@ -41,15 +41,15 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
     state: State;
     extra: AxiosInstance;
 }>(
-    'user/checkAuth',
-    async (_arg, { dispatch, extra: api }) => {
-        try {
-            await api.get(ApiRoute.Login);
-            dispatch(requireAuthorization(AuthorizationStatus.Auth));
-        } catch {
-            dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-        }
-    },
+  'user/checkAuth',
+  async (_arg, { dispatch, extra: api }) => {
+    try {
+      await api.get(ApiRoute.Login);
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    } catch {
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    }
+  },
 );
 
 export const loginAction = createAsyncThunk<void, AuthData, {
@@ -57,12 +57,12 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     state: State;
     extra: AxiosInstance;
 }>(
-    'user/login',
-    async ({ login: email, password }, { dispatch, extra: api }) => {
-        const { data: { token } } = await api.post<UserData>(ApiRoute.Login, { email, password });
-        saveToken(token);
-        dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    },
+  'user/login',
+  async ({ login: email, password }, { dispatch, extra: api }) => {
+    const { data: { token } } = await api.post<UserData>(ApiRoute.Login, { email, password });
+    saveToken(token);
+    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+  },
 );
 
 export const logoutAction = createAsyncThunk<void, undefined, {
@@ -70,10 +70,10 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     state: State;
     extra: AxiosInstance;
 }>(
-    'user/logout',
-    async (_arg, { dispatch, extra: api }) => {
-        await api.delete(ApiRoute.Logout);
-        dropToken();
-        dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    },
+  'user/logout',
+  async (_arg, { dispatch, extra: api }) => {
+    await api.delete(ApiRoute.Logout);
+    dropToken();
+    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+  },
 );
