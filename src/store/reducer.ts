@@ -1,16 +1,29 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setCityActive, getOffers, setChangeMap, getSortType, setSortedOffers } from './action';
-import { offers } from '../mocks/offers';
+import { setCityActive, getOffers, setChangeMap, getSortType, setSortedOffers, loadOffers, requireAuthorization } from './action';
 import { DEFAULT_CITY, defaultLocation, SortType } from '../const';
 import { getSortedOffers } from '../components/sort/utils';
+import { AuthorizationStatus } from '../const';
+import { Offers } from '../types/offers';
+import { CityMap } from '../types/city-map';
 
-const initialState = {
+type InitalState = {
+  cityActive: string;
+  allOffers: Offers;
+  offers: Offers;
+  offersIsLoading: boolean;
+  city: CityMap;
+  sortType: SortType;
+  authorizationStatus: AuthorizationStatus;
+}
+
+const initialState: InitalState = {
   cityActive: DEFAULT_CITY,
-  offers: offers.filter(
-    (item) => item?.city?.name === DEFAULT_CITY
-  ),
+  allOffers: [],
+  offers: [],
+  offersIsLoading: false,
   city: defaultLocation,
-  sortType: SortType.Popular
+  sortType: SortType.Popular,
+  authorizationStatus: AuthorizationStatus.Unknown
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -20,9 +33,12 @@ const reducer = createReducer(initialState, (builder) => {
     })
 
     .addCase(getOffers, (state) => {
-      state.offers = offers.filter(
-        (item) => item?.city?.name === state.cityActive
-      );
+      if (state.allOffers.length) {
+        const offersByCity = state.allOffers.filter(
+          (item) => item?.city?.name === state.cityActive
+        );
+        state.offers = getSortedOffers(state.sortType, offersByCity);
+      }
     })
 
     .addCase(setChangeMap, (state, action) => {
@@ -35,6 +51,14 @@ const reducer = createReducer(initialState, (builder) => {
 
     .addCase(setSortedOffers, (state) => {
       state.offers = getSortedOffers(state.sortType, state.offers);
+    })
+
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
+
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
 
