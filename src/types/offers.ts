@@ -4,7 +4,7 @@ import {Host} from './host';
 
 export type Offer = {
   id: string;
-  name: string;
+  title: string;
   type: string;
   price: number;
   rating: number;

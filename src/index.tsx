@@ -7,8 +7,9 @@ import { reviews } from './mocks/reviews';
 import { citiesList } from './const';
 import { store } from './store';
 import ErrorMessage from './components/error-message/error-message';
-import {checkAuthAction} from './store/api-actions';
+import {fetchQuestionAction, checkAuthAction} from './store/api-actions';
 
+store.dispatch(fetchQuestionAction());
 store.dispatch(checkAuthAction());
 
 const root = ReactDOM.createRoot(

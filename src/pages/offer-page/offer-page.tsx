@@ -21,7 +21,8 @@ function OfferPage({ offers, reviews }: OfferPageProps): JSX.Element {
   const params = useParams();
   const cardId = params.id;
   const selectedCard = offers.filter((offer) => offer.id === cardId)[0];
-  const { name, type, images, isPremium, rating, bedrooms, maxAdults, price, isFavorite, host, goods, description } = selectedCard;
+  
+  const { title, type, images, isPremium, rating, bedrooms, maxAdults, price, isFavorite, host, goods, description } = selectedCard;
   const { hostName, isPro, avatarUrl } = host;
 
   const foundOffer = offers.find((offer): boolean => offer.id.toString() === cardId);
@@ -92,7 +93,7 @@ function OfferPage({ offers, reviews }: OfferPageProps): JSX.Element {
                 : ''}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {name}
+                  {title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className={`offer__bookmark-icon ${isFavorite ? 'offer__bookmark-button--active' : ''}`} width={31} height={33}>
