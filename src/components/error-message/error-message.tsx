@@ -1,12 +1,12 @@
 import { useAppSelector } from '../../hooks';
-import style from './error-message.module.css';
+import  './error-message.css';
 
 
 function ErrorMessage(): JSX.Element | null {
   const error = useAppSelector((state) => state.error);
 
   return (error)
-    ? <div className={style.error__message}>{error}</div>
+    ? <div className="error__message">{error}</div>
     : null;
 }
 

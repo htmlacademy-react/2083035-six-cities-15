@@ -1,10 +1,10 @@
-import style from './spinner.module.css';
+import './spinner.css';
 
 function Spinner(): JSX.Element {
   return (
-    <div className={style.spinner__container}>
-      <div className={style.spinner}></div>
-      <span className={style.spinner__info}>Loading</span>
+    <div className="spinner__container">
+      <div className="spinner"></div>
+      <span className="spinner__info">Loading</span>
     </div>
 
   );

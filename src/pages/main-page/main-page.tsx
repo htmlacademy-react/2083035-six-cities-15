@@ -16,8 +16,8 @@ function MainPage({ citiesList }: MainPageProps): JSX.Element {
   const cityActive = useAppSelector((state) => state.cityActive);
   const offersActive = useAppSelector((state) => state.offers);
   const cityMapActive = useAppSelector((state) => state.city);
-  const placesCount = offersActive.length;
   const filteredOffersByCity = offersActive.filter((offer) => offer.city.name === cityActive);
+  const placesCount = filteredOffersByCity.length;
 
   return (
     <div className="page page--gray page--main">
