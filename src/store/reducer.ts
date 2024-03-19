@@ -5,6 +5,7 @@ import { getSortedOffers } from '../components/sort/utils';
 import { AuthorizationStatus } from '../const';
 import { Offers } from '../types/offers';
 import { CityMap } from '../types/city-map';
+import { UserLogIn } from '../types/user';
 
 type InitalState = {
   cityActive: string;
@@ -15,6 +16,7 @@ type InitalState = {
   sortType: SortType;
   authorizationStatus: AuthorizationStatus;
   error: string | null;
+  user: UserLogIn | null;
 }
 
 const initialState: InitalState = {
@@ -26,6 +28,7 @@ const initialState: InitalState = {
   sortType: SortType.Popular,
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
+  user: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
