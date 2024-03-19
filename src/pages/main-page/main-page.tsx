@@ -1,11 +1,13 @@
 import Logo from '../../components/logo/logo';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
-import { useAppSelector } from '../../hooks/index';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import Map from '../../components/map/map.tsx';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
 import LocationsList from '../../components/locations-list/locations-list.tsx';
 import Sort from '../../components/sort/sort.tsx';
+import { logoutAction } from '../../store/api-actions';
 
 type MainPageProps = {
   citiesList: string[];
@@ -18,6 +20,8 @@ function MainPage({ citiesList }: MainPageProps): JSX.Element {
   const cityMapActive = useAppSelector((state) => state.city);
   const filteredOffersByCity = offersActive.filter((offer) => offer.city.name === cityActive);
   const placesCount = filteredOffersByCity.length;
+
+  const dispatch = useAppDispatch();
 
   return (
     <div className="page page--gray page--main">
@@ -46,7 +50,16 @@ function MainPage({ citiesList }: MainPageProps): JSX.Element {
                 </li>
                 <li className="header__nav-item">
                   <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
+                    <Link
+                      className="header__signout"
+                      onClick={(evt) => {
+                        evt.preventDefault();
+                        dispatch(logoutAction());
+                      }}
+                      to='/'
+                    >
+                      Sign out
+                    </Link>
                   </a>
                 </li>
               </ul>
