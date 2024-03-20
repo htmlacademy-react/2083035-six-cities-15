@@ -1,16 +1,12 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
-import { Offers } from '../../types/offers';
 import { handleStars } from '../../const';
 import { Link } from 'react-router-dom';
 import NavList from '../../components/nav-list/nav-list';
+import { useAppSelector } from '../../hooks';
 
-type FavoritesPageProps = {
-  offers: Offers;
-}
-
-function FavotitesPage({ offers }: FavoritesPageProps): JSX.Element {
-  const favoriteCards = offers.filter((offer) => offer.isFavorite === true);
+function FavotitesPage(): JSX.Element {
+  const favoriteCards = useAppSelector((state)=>state.offers).filter((offer) => offer.isFavorite === true);
 
   return (
     <div className="page">

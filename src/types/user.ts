@@ -6,9 +6,8 @@ export type User = {
     userName: string;
   };
 
-  export type UserLogIn = UserData & {
+export type UserLogIn = UserData & {
     avatarUrl: string;
     isPro: boolean;
     name: string;
   };
-  

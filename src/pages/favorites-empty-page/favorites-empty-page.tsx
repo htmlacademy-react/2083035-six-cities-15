@@ -14,7 +14,7 @@ function FavoritesEmptyPage(): JSX.Element {
             <div className="header__left">
               <Logo />
             </div>
-           <NavList />
+            <NavList />
           </div>
         </div>
       </header>

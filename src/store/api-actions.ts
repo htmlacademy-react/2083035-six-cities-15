@@ -6,7 +6,6 @@ import { loadOffers, requireAuthorization, setOffersIsLoading, getOffers, setErr
 import { saveToken, dropToken } from '../services/token';
 import { ApiRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR, AppRoute } from '../const';
 import { AuthData } from '../types/auth-data';
-// import { UserData } from '../types/user-data';
 import { store } from '.';
 import { UserLogIn } from '../types/user';
 
@@ -21,12 +20,12 @@ export const clearErrorAction = createAsyncThunk(
 );
 
 
-export const fetchQuestionAction = createAsyncThunk<void, undefined, {
+export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/fetchQuestions',
+  'data/fetchOffers',
   async (_arg, { dispatch, extra: api }) => {
     dispatch(setOffersIsLoading(true));
 
