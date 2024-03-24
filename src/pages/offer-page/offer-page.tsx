@@ -1,41 +1,42 @@
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/index';
 import { useEffect } from 'react';
 import Logo from '../../components/logo/logo';
 import ReviewCardList from '../../components/review-card-list/review-card-list';
 import Map from '../../components/map/map';
 import NearPlaceCardList from '../../components/near-place-card-list/near-place-card-list';
-import NotFoundPage from '../not-found-page/not-found-page';
 import NavList from '../../components/nav-list/nav-list';
 import Spinner from '../../components/spinner/spinner';
 import { store } from '../../store';
 import { fetchOfferAction, fetchReviewsAction, fetchNearOffersAction } from '../../store/api-actions';
+import { AppRoute } from '../../const';
+
+const MIN_NEAR_OFFERS_COUNT = 0;
+const MAX_NEAR_OFFERS_COUNT = 3;
 
 function OfferPage(): JSX.Element {
   const { id } = useParams();
   const cityMapActive = useAppSelector((state) => state.city);
-  const selectedCard = useAppSelector((state) => state.offers).filter((offer) => offer.id === id)[0];
-  const foundOffer = useAppSelector((state) => state.offers).find((offer): boolean => offer.id.toString() === id);
+
+  const selectedOffer = useAppSelector((state) => state.offer);
+  const offerIsLoading = useAppSelector((state) => state.offersIsLoading);
+  const offerIsNotFound = useAppSelector((state) => state.offerIsNotFound);
   const reviewsActive = useAppSelector((state) => state.reviews);
-  const offersIsLoading = useAppSelector((state) => state.offersIsLoading);
-
-  if (!foundOffer) {
-    return (<NotFoundPage />);
-  }
-
-  const offerPage = { ...selectedCard, ...foundOffer };
   const nearOffers = useAppSelector((state) => state.nearOffers);
   const nearOffersIsLoading = useAppSelector((state) => state.nearOffersIsLoading);
-  const activeNearOffers = nearOffers.slice(0, Math.min(3, nearOffers.length))
-  const nearOfferPlusSelectedCard = [offerPage, ...activeNearOffers];
+  const activeNearOffers = nearOffers.slice(MIN_NEAR_OFFERS_COUNT, Math.min(MAX_NEAR_OFFERS_COUNT, nearOffers.length))
+
+  const nearOfferPlusSelectedOffer = [...activeNearOffers];
+  if(selectedOffer) {
+    nearOfferPlusSelectedOffer.push(selectedOffer);
+  };
 
   useEffect(() => {
     store.dispatch(fetchOfferAction(id));
     store.dispatch(fetchReviewsAction(id));
     store.dispatch(fetchNearOffersAction(id));
   }, [id]);
-
 
   return (
     <div className="page">
@@ -53,13 +54,14 @@ function OfferPage(): JSX.Element {
         </div>
       </header>
       <main className="page__main page__main--offer">
-        {offersIsLoading && <Spinner />}
-        {selectedCard && !offersIsLoading && (
+        {offerIsLoading && <Spinner />}
+        {offerIsNotFound && <Navigate to={AppRoute.NotFound} />}
+        {selectedOffer && !offerIsNotFound && !offerIsLoading && (
           <section className="offer">
             <div className="offer__gallery-container container">
               <div className="offer__gallery">
-                {selectedCard.images?.length > 0 &&
-                  selectedCard.images.map((url, id) => {
+                {selectedOffer.images
+                  .map((url, id) => {
                     const keyValue = `${id}-${url}`;
                     return (
                       <div key={keyValue} className="offer__image-wrapper">
@@ -71,17 +73,17 @@ function OfferPage(): JSX.Element {
             </div>
             <div className="offer__container container">
               <div className="offer__wrapper">
-                {selectedCard.isPremium ?
+                {selectedOffer.isPremium ?
                   <div className="offer__mark">
                     <span>Premium</span>
                   </div>
                   : ''}
                 <div className="offer__name-wrapper">
                   <h1 className="offer__name">
-                    {selectedCard.title}
+                    {selectedOffer.title}
                   </h1>
                   <button className="offer__bookmark-button button" type="button">
-                    <svg className={`offer__bookmark-icon ${selectedCard.isFavorite ? 'offer__bookmark-button--active' : ''}`} width={31} height={33}>
+                    <svg className={`offer__bookmark-icon ${selectedOffer.isFavorite ? 'offer__bookmark-button--active' : ''}`} width={31} height={33}>
                       <use xlinkHref="#icon-bookmark" />
                     </svg>
                     <span className="visually-hidden">To bookmarks</span>
@@ -92,26 +94,26 @@ function OfferPage(): JSX.Element {
                     <span style={{ width: '80%' }} />
                     <span className="visually-hidden">Rating</span>
                   </div>
-                  <span className="offer__rating-value rating__value">{selectedCard.rating}</span>
+                  <span className="offer__rating-value rating__value">{selectedOffer.rating}</span>
                 </div>
                 <ul className="offer__features">
-                  <li className="offer__feature offer__feature--entire">{selectedCard.type}</li>
+                  <li className="offer__feature offer__feature--entire">{selectedOffer.type}</li>
                   <li className="offer__feature offer__feature--bedrooms">
-                    {selectedCard.bedrooms} Bedrooms
+                    {selectedOffer.bedrooms} Bedrooms
                   </li>
                   <li className="offer__feature offer__feature--adults">
-                    Max {selectedCard.maxAdults} adults
+                    Max {selectedOffer.maxAdults} adults
                   </li>
                 </ul>
                 <div className="offer__price">
-                  <b className="offer__price-value">€{selectedCard.price}</b>
+                  <b className="offer__price-value">€{selectedOffer.price}</b>
                   <span className="offer__price-text">&nbsp;night</span>
                 </div>
-                {selectedCard.goods && (
+                {selectedOffer.goods && (
                   <div className="offer__inside">
                     <h2 className="offer__inside-title">Whats inside</h2>
                     <ul className="offer__inside-list">
-                      {selectedCard.goods.map((good) => {
+                      {selectedOffer.goods.map((good) => {
                         const keyValue = good;
                         return (<li key={keyValue} className="offer__inside-item">{good}</li>);
                       })}
@@ -121,21 +123,21 @@ function OfferPage(): JSX.Element {
                 <div className="offer__host">
                   <h2 className="offer__host-title">Meet the host</h2>
                   <div className="offer__host-user user">
-                    {selectedCard.host?.avatarUrl && (
-                      <div className={`offer__avatar-wrapper ${selectedCard.host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
+                    {selectedOffer.host?.avatarUrl && (
+                      <div className={`offer__avatar-wrapper ${selectedOffer.host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
                         <img
                           className="offer__avatar user__avatar"
-                          src={selectedCard.host.avatarUrl}
+                          src={selectedOffer.host.avatarUrl}
                           width={74}
                           height={74}
                           alt="Host avatar"
                         />
                       </div>
                     )}
-                    {selectedCard.host?.hostName && (
-                      <span className="offer__user-name">{selectedCard.host.hostName}</span>
+                    {selectedOffer.host?.hostName && (
+                      <span className="offer__user-name">{selectedOffer.host.hostName}</span>
                     )}
-                    {selectedCard.host?.isPro && (
+                    {selectedOffer.host?.isPro && (
                       <span className="offer__user-status">Pro</span>
                     )}
                   </div>
@@ -155,7 +157,7 @@ function OfferPage(): JSX.Element {
                 {reviewsActive && (<ReviewCardList reviewList={reviewsActive} offerId={id} />)}
               </div>
             </div>
-            <Map mapType={'offer'} offers={nearOfferPlusSelectedCard} cardHoverId={offerPage.id} city={cityMapActive} />
+            <Map mapType={'offer'} offers={nearOfferPlusSelectedOffer} cardHoverId={selectedOffer.id} city={cityMapActive} />
           </section>
         )}
         <div className="container">
