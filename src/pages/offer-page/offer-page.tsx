@@ -16,7 +16,8 @@ const MIN_NEAR_OFFERS_COUNT = 0;
 const MAX_NEAR_OFFERS_COUNT = 3;
 
 function OfferPage(): JSX.Element {
-  const { id } = useParams();
+  const params = useParams();
+  const offerId = params.id;
   const cityMapActive = useAppSelector((state) => state.city);
 
   const selectedOffer = useAppSelector((state) => state.offer);
@@ -25,18 +26,18 @@ function OfferPage(): JSX.Element {
   const reviewsActive = useAppSelector((state) => state.reviews);
   const nearOffers = useAppSelector((state) => state.nearOffers);
   const nearOffersIsLoading = useAppSelector((state) => state.nearOffersIsLoading);
-  const activeNearOffers = nearOffers.slice(MIN_NEAR_OFFERS_COUNT, Math.min(MAX_NEAR_OFFERS_COUNT, nearOffers.length))
+  const activeNearOffers = nearOffers.slice(MIN_NEAR_OFFERS_COUNT, Math.min(MAX_NEAR_OFFERS_COUNT, nearOffers.length));
 
   const nearOfferPlusSelectedOffer = [...activeNearOffers];
   if(selectedOffer) {
     nearOfferPlusSelectedOffer.push(selectedOffer);
-  };
+  }
 
   useEffect(() => {
-    store.dispatch(fetchOfferAction(id));
-    store.dispatch(fetchReviewsAction(id));
-    store.dispatch(fetchNearOffersAction(id));
-  }, [id]);
+    store.dispatch(fetchOfferAction(offerId));
+    store.dispatch(fetchReviewsAction(offerId));
+    store.dispatch(fetchNearOffersAction(offerId));
+  }, [offerId]);
 
   return (
     <div className="page">
@@ -154,7 +155,7 @@ function OfferPage(): JSX.Element {
                     </p>
                   </div>
                 </div>
-                {reviewsActive && (<ReviewCardList reviewList={reviewsActive} offerId={id} />)}
+                {reviewsActive && (<ReviewCardList reviewList={reviewsActive} offerId={offerId} />)}
               </div>
             </div>
             <Map mapType={'offer'} offers={nearOfferPlusSelectedOffer} cardHoverId={selectedOffer.id} city={cityMapActive} />
